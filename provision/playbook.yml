@@ -1,0 +1,7 @@
+---
+- name: main
+  hosts: all
+  gather_facts: false
+  roles:
+    - docker
+  tags: docker

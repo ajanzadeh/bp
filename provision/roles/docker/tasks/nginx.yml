@@ -1,0 +1,22 @@
+---
+
+- name: upload the site directory to the docker host
+  become: true
+  synchronize: src=build dest=/tmp
+- name: Build Docker image from Dockerfile
+  become: true
+  docker_image:
+    name: web
+    path: /tmp/build
+    state: build
+
+- name: nginx container
+  become: true
+  docker_container:
+     name: nginx
+     network_mode: bridge
+     image: web:latest
+     state: started
+     restart: yes
+     restart_policy: always
+     ports: "80:80"
